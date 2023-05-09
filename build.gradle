@@ -2,16 +2,22 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.11'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'jacoco'
 }
 
 group = 'com.meli'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+}
+
+jacoco {
+	toolVersion = "0.8.7"
 }
 
 repositories {
@@ -24,12 +30,25 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'io.springfox:springfox-swagger2:3.0.0'
 	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
-
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+	implementation 'org.jacoco:org.jacoco.core:0.8.7'
+	implementation 'org.jacoco:org.jacoco.report:0.8.7'
+	implementation 'org.jacoco:org.jacoco.agent:0.8.7:runtime'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled true
+		html.enabled true
+	}
 }
